@@ -19,6 +19,10 @@ def _send(msg: bytes) -> None:
             raise RuntimeError(msg)
 
 
+def absolute_move(x: int, y: int):
+    _send(f"A{x} {y}\n".encode("ascii"))
+
+
 # We can only move in increments of 127
 # This is a limitation of the USB HID specification
 # Where the movement amount is stored as a signed 8

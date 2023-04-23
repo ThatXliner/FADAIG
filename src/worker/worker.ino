@@ -1,5 +1,6 @@
 #include <Mouse.h>
-enum class Command { Empty, Move, Press, Release };
+#include <MouseTo.h>
+enum class Command { Empty, Move, Press, Release, AbsoluteMove };
 long inputX;
 long inputY;
 Command currentCommand = Command::Empty;
@@ -8,6 +9,8 @@ void setup() {
     inputX = -1;
     inputY = -1;
     Mouse.begin();
+    // TODO: Calibrate correction factor, calibrate actual screen resolution
+    MouseTo.setCorrectionFactor(1);
 }
 void executeCommand() {
     if (currentCommand == Command::Move) {
@@ -16,6 +19,9 @@ void executeCommand() {
         Mouse.press();
     } else if (currentCommand == Command::Release) {
         Mouse.release();
+    } else if (currentCommand == Command::AbsoluteMove) {
+        MouseTo.setTarget(inputX, inputY);
+        while (MouseTo.move() == false) {}
     }
 }
 void loop() {
@@ -32,8 +38,11 @@ void loop() {
         case 'R':
             currentCommand = Command::Release;
             break;
+        case 'A':
+            currentCommand = Command::AbsoluteMove;
+            break;
     }
-    if (currentCommand == Command::Move) {
+    if (currentCommand == Command::Move || currentCommand == Command::AbsoluteMove) {
         inputX = Serial1.parseInt();
         inputY = Serial1.parseInt();
     }
