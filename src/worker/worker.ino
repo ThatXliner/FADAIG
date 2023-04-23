@@ -5,7 +5,6 @@ long inputY;
 Command currentCommand = Command::Empty;
 void setup() {
     Serial1.begin(9600);
-    Serial.begin(9600);
     inputX = -1;
     inputY = -1;
     Mouse.begin();
@@ -18,7 +17,6 @@ void executeCommand() {
     } else if (currentCommand == Command::Release) {
         Mouse.release();
     }
-    Serial.println("Executed command");
 }
 void loop() {
     while (Serial1.available() == 0) {
