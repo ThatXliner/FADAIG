@@ -19,11 +19,12 @@ def _send(msg: bytes) -> None:
             raise RuntimeError(msg)
 
 
-# We can only go in increments of 127
+# We can only move in increments of 127
 # This is a limitation of the USB HID specification
 # Where the movement amount is stored as a signed 8
 # bit number (2^7 - 1)
-INCREMENTS = 127  # MAX:127
+INCREMENT = 127  # Maximum value: 127
+assert INCREMENT <= 127
 
 
 def _gi(n, increment):
@@ -34,23 +35,30 @@ def _gi(n, increment):
     return -increment
 
 
-def move(x: int, y: int, increments=INCREMENTS) -> None:
+def move(x: int, y: int, increment=INCREMENT) -> None:
     # TODO: Verify the math
-    for _ in range(min(abs(x // increments), abs(y // increments))):
+    amount = min(abs(x // increment), abs(y // increment))
+    for _ in range(amount):
         _send(f"M{_gi(x)} {_gi(y)}\n".encode("ascii"))
-    x -= increments * min(abs(x // increments), abs(y // increments)) * _gi(x, 1)
-    y -= increments * min(abs(x // increments), abs(y // increments)) * _gi(y, 1)
 
-    if abs(x) > increments:
-        for _ in range(abs(x // increments)):
+    x -= increment * amount * _gi(x, 1)
+    y -= increment * amount * _gi(y, 1)
+
+    if abs(x) > increment:
+        amount = abs(x // increment)
+
+        for _ in range(amount):
             _send(f"M{_gi(x)} 0\n".encode("ascii"))
-        x -= increments * abs(x // increments) * _gi(x, 1)
-    if abs(y) > increments:
-        for _ in range(abs(y // increments)):
+        x -= increment * amount * _gi(x, 1)
+    if abs(y) > increment:
+        amount = abs(y // increment)
+
+        for _ in range(amount):
             _send(f"M0 {_gi(y)}\n".encode("ascii"))
-        y -= increments * abs(y // increments) * _gi(y, 1)
+        y -= increment * amount * _gi(y, 1)
+
     # X % Y where Y > 0 is the same as |X| % Y
-    _send(f"M{x%increments} {y%increments}\n".encode("ascii"))
+    _send(f"M{x%increment} {y%increment}\n".encode("ascii"))
 
 
 def press() -> None:

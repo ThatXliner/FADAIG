@@ -81,7 +81,7 @@ def main():
 #         for tile in path:
 #             x = tile.x - cur_x
 #             y = tile.y - cur_y
-#             move(x * 55, y * 55, increments=35)
+#             move(x * 55, y * 55, increment=35)
 #             input("[NEXT]")
 #             # move(x * 186, y * 186)
 #             cur_x, cur_y = tile.x, tile.y
