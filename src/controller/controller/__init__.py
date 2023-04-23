@@ -72,11 +72,11 @@ def move(x: int, y: int, increment=INCREMENT) -> None:
 
 
 def press() -> None:
-    _send("P".encode("ascii"))
+    _send(b"P")
 
 
 def release() -> None:
-    _send("R".encode("ascii"))
+    _send(b"R")
 
 
 DX = [0, 1, 1, 1, 0, -1, -1, -1]
