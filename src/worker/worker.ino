@@ -1,6 +1,6 @@
 #include <Mouse.h>
 #include <MouseTo.h>
-enum class Command { Empty, Move, Press, Release, AbsoluteMove };
+enum class Command { Empty, Move, Press, Release, AbsoluteMove, Home };
 long inputX;
 long inputY;
 Command currentCommand = Command::Empty;
@@ -20,8 +20,10 @@ void executeCommand() {
     } else if (currentCommand == Command::Release) {
         Mouse.release();
     } else if (currentCommand == Command::AbsoluteMove) {
-        MouseTo.setTarget(inputX, inputY);
+        MouseTo.setTarget(inputX, inputY, false);
         while (MouseTo.move() == false) {}
+    } else if (currentCommand == Command::HOME) {
+        MouseTo.setTarget(0, 0, true);
     }
 }
 void loop() {
@@ -40,6 +42,9 @@ void loop() {
             break;
         case 'A':
             currentCommand = Command::AbsoluteMove;
+            break;
+        case 'H':
+            currentCommand = Command::Home;
             break;
     }
     if (currentCommand == Command::Move || currentCommand == Command::AbsoluteMove) {
