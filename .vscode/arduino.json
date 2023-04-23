@@ -1,0 +1,5 @@
+{
+    "board": "arduino:avr:leonardo",
+    "sketch": "src/worker/worker.ino",
+    "port": "/dev/tty.usbmodemHIDGD1"
+}
