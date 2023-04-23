@@ -4,7 +4,8 @@ This folder contains the Arduino code to run on an [Arduino Leonardo](https://do
 
 ## Dependencies
 
-None. `Mouse.h` should be built-in with the Arduino Leonardo.
+- [`Mouse.h`](https://www.arduino.cc/reference/en/language/functions/usb/mouse/) - should be built-in with the Arduino Leonardo.
+- [`MouseTo.h`](https://github.com/per1234/MouseTo) - see their installation instructions
 
 ## Installation
 
