@@ -22,7 +22,7 @@ void executeCommand() {
     } else if (currentCommand == Command::AbsoluteMove) {
         MouseTo.setTarget(inputX, inputY, false);
         while (MouseTo.move() == false) {}
-    } else if (currentCommand == Command::HOME) {
+    } else if (currentCommand == Command::Home) {
         MouseTo.setTarget(0, 0, true);
     }
 }
