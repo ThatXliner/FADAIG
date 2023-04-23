@@ -1,8 +1,9 @@
+import readline  # noqa
 from pathlib import Path
 
 import pygtrie
 
-from controller import move, press, release
+from controller import move, press, release, logic
 
 # Each tile is 160x160 pixels
 
@@ -59,36 +60,38 @@ def main():
             move(*list(map(int, cmd)))
 
 
-# def main():
-#     release()
-#     print("Loading words")
-#     words = get_words()
-#     # Move to top left corner
-#     move(-900, -900)
-#     # move(-2360, -1640)
-#     input("Ready to go? [press ENTER]")
-#     # move = lambda *args: print("MOVED: ", *args)
-#     # press = lambda: print("PRESSED")
-#     # release = lambda: print("RELEASED")
-#     # Move to the center of the top left tile
-#     tiles = [list(input(">").lower()) for _ in range(4)]
-#     move(300, 255)
-#     # move(901, 757)
-#     cur_x = 0
-#     cur_y = 0
-#     for path in logic(tiles, words):
-#         is_pressed = False
-#         for tile in path:
-#             x = tile.x - cur_x
-#             y = tile.y - cur_y
-#             move(x * 55, y * 55, increment=35)
-#             input("[NEXT]")
-#             # move(x * 186, y * 186)
-#             cur_x, cur_y = tile.x, tile.y
-#             if not is_pressed:
-#                 press()
-#                 is_pressed = True
-#         release()
+# 127 = One tick less than 1.5 inches
+
+
+def main():
+    release()
+    print("Loading words")
+    words = get_words()
+    # Move to top left corner
+    move(-900, -900)
+    # move(-2360, -1640)
+    input("Ready to go? [press ENTER]")
+    # move = lambda *args: print("MOVED: ", *args)
+    # press = lambda: print("PRESSED")
+    # release = lambda: print("RELEASED")
+    # Move to the center of the top left tile
+    tiles = [list(input(">").lower()) for _ in range(4)]
+    move(350, 300)
+    # move(901, 757)
+    cur_x = 0
+    cur_y = 0
+    for path in logic(tiles, words):
+        is_pressed = False
+        for tile in path:
+            x = tile.x - cur_x
+            y = tile.y - cur_y
+            move(x * 58, y * 58)
+            # move(x * 186, y * 186)
+            cur_x, cur_y = tile.x, tile.y
+            if not is_pressed:
+                press()
+                is_pressed = True
+        release()
 
 
 if __name__ == "__main__":
