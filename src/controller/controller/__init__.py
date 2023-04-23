@@ -36,29 +36,31 @@ def _gi(n, increment):
 
 
 def move(x: int, y: int, increment=INCREMENT) -> None:
-    # TODO: Verify the math
-    amount = min(abs(x // increment), abs(y // increment))
+    amount = min(abs(x) // increment, abs(y) // increment)
     for _ in range(amount):
-        _send(f"M{_gi(x)} {_gi(y)}\n".encode("ascii"))
+        _send(f"M{_gi(x, increment)} {_gi(y, increment)}\n".encode("ascii"))
 
-    x -= increment * amount * _gi(x, 1)
-    y -= increment * amount * _gi(y, 1)
+    x -= amount * _gi(x, increment)
+    y -= amount * _gi(y, increment)
 
-    if abs(x) > increment:
-        amount = abs(x // increment)
-
-        for _ in range(amount):
-            _send(f"M{_gi(x)} 0\n".encode("ascii"))
-        x -= increment * amount * _gi(x, 1)
-    if abs(y) > increment:
-        amount = abs(y // increment)
+    if abs(x) >= increment:
+        amount = abs(x) // increment
 
         for _ in range(amount):
-            _send(f"M0 {_gi(y)}\n".encode("ascii"))
-        y -= increment * amount * _gi(y, 1)
+            _send(f"M{_gi(x, increment)} 0\n".encode("ascii"))
+        x -= amount * _gi(x, increment)
+    if abs(y) >= increment:
+        amount = abs(y) // increment
 
-    # X % Y where Y > 0 is the same as |X| % Y
-    _send(f"M{x%increment} {y%increment}\n".encode("ascii"))
+        for _ in range(amount):
+            _send(f"M0 {_gi(y, increment)}\n".encode("ascii"))
+        y -= amount * _gi(y, increment)
+
+    _send(
+        f"M{(abs(x)%increment) * _gi(x, 1)} {(abs(y)%increment) * _gi(y, 1)}\n".encode(
+            "ascii"
+        )
+    )
 
 
 def press() -> None:
