@@ -122,7 +122,7 @@ def logic(point_matrix: list[list[str]], trie: pygtrie.CharTrie) -> Iterator[Poi
                 if (
                     newv not in visited
                     and new_point not in head
-                    and trie.has_subtrie(newv)
+                    and (trie.has_subtrie(newv) or trie.has_key(newv))
                 ):
                     visited.add(newv)
                     queue.append(new_head)
