@@ -59,7 +59,7 @@ def main():
     absolute_move(0, 0, True)
     input("Ready to go? [press ENTER]")
     tiles = [list(input(">").lower()) for _ in range(4)]
-    for path in logic(tiles, words):
+    for path in reversed(list(logic(tiles, words))):
         is_pressed = False
         for tile in path:
             # 560, 450 is the top left tile
