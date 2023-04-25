@@ -9,7 +9,6 @@ TTL_TO_USB_PORT = "/dev/tty.usbserial-B0006KP1"
 
 
 def _send(msg: bytes) -> None:
-    print(msg)  # noqa: T201
     with serial.Serial(TTL_TO_USB_PORT) as ser:
         ser.write(msg)
         ser.flush()  # Just in case
@@ -19,11 +18,11 @@ def _send(msg: bytes) -> None:
             raise RuntimeError(msg)
 
 
-def absolute_move(x: int, y: int, home: bool = False):
+def absolute_move(x: int, y: int, home: bool = False) -> None:
     _send(f"{'C' if home else 'A'}{x} {y}\n".encode("ascii"))
 
 
-def home():
+def home() -> None:
     _send(b"H\n")
 
 
@@ -32,10 +31,10 @@ def home():
 # Where the movement amount is stored as a signed 8
 # bit number (2^7 - 1)
 INCREMENT = 127  # Maximum value: 127
-assert INCREMENT <= 127
+MAX_INCREMENT = 127
 
 
-def _gi(n, increment):
+def _gi(n: int, increment: int) -> None:
     if n == 0:
         return n
     if n > 0:
@@ -43,7 +42,10 @@ def _gi(n, increment):
     return -increment
 
 
-def move(x: int, y: int, increment=INCREMENT) -> None:
+def move(x: int, y: int, increment: int = INCREMENT) -> None:
+    if increment > MAX_INCREMENT:
+        msg = "increment must be between 1 and 127 (inclusive)"
+        raise ValueError(msg)
     amount = min(abs(x) // increment, abs(y) // increment)
     for _ in range(amount):
         _send(f"M{_gi(x, increment)} {_gi(y, increment)}\n".encode("ascii"))
@@ -66,8 +68,8 @@ def move(x: int, y: int, increment=INCREMENT) -> None:
 
     _send(
         f"M{(abs(x)%increment) * _gi(x, 1)} {(abs(y)%increment) * _gi(y, 1)}\n".encode(
-            "ascii"
-        )
+            "ascii",
+        ),
     )
 
 
@@ -93,9 +95,7 @@ PointPath = tuple[LetterPoint, ...]
 
 
 def logic(point_matrix: list[list[str]], trie: pygtrie.CharTrie) -> Iterator[PointPath]:
-    """Given a matrix of possible points, yield a tuple
-    of points representing a new and unique path."""
-
+    """Given a matrix of possible points, yield a tuple of points representing a new and unique path."""
     max_row_length = len(point_matrix[0])
     max_col_length = len(point_matrix)
     # Every point on the matrix

@@ -14,3 +14,7 @@ pygtrie = "^2.5.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+select = ["ALL"]
+ignore = ["FBT", "D"]
