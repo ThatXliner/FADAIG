@@ -9,6 +9,7 @@ readme = "README.md"
 python = "^3.10"
 pyserial = "^3.5"
 pygtrie = "^2.5.0"
+rich = "^13.3.4"
 
 
 [build-system]

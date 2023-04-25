@@ -1,15 +1,23 @@
-import readline  # noqa: F401
+import statistics
+import time
 from pathlib import Path
 
 import pygtrie
+from rich import progress
+from rich.console import Console
+from rich.prompt import Prompt
 
 from controller import absolute_move, home, logic, press, release
 
 
 def get_words() -> pygtrie.CharTrie:
     output = pygtrie.CharTrie()
-    for word in (Path(__file__).parent.parent / "words.txt").read_text().splitlines():
-        output[word.lower()] = object()
+    with progress.wrap_file(
+        (Path(__file__).parent.parent / "words.txt").open("r", encoding="utf-8"),
+    ) as file:
+        for word in file:
+            # A unique object to mark the end of the trie
+            output[word.lower()] = object()
     return output
 
 
@@ -31,7 +39,7 @@ def mouse_shell() -> None:
     is_pressed = False
     while True:
         try:
-            cmd = input(">").split()
+            cmd = Prompt.ask(">").split()
         except EOFError:
             break
         if not cmd:
@@ -51,15 +59,26 @@ def mouse_shell() -> None:
             absolute_move(*list(map(int, cmd)), homed)
 
 
+SCORE_MAP = {3: 100, 4: 400, 5: 800, 6: 1400, 7: 1800}
+
+
 def word_hunt() -> None:
+    console = Console()
     release()
-    words = get_words()
+    with console.status("Loading word list..."):
+        words = get_words()
     # Move to top left corner
     absolute_move(0, 0, home=True)
-    input("Ready to go? [press ENTER]")
-    tiles = [list(input(">").lower()) for _ in range(4)]
-    for path in reversed(list(logic(tiles, words))):
+    tiles = [list(Prompt.ask(">").lower()) for _ in range(4)]
+
+    start_time = time.time()
+    score = 0
+    words = 0
+    movement_times = []
+    for path in progress.track(reversed(list(logic(tiles, words)))):
+        score += SCORE_MAP.get(len(path), 1800)
         is_pressed = False
+        start = time.time()
         for tile in path:
             # 560, 450 is the top left tile
             absolute_move(560 + tile.x * 130, 450 + tile.y * 130)
@@ -67,3 +86,14 @@ def word_hunt() -> None:
                 press()
                 is_pressed = True
         release()
+        movement_times.append(time.time() - start)
+        words += 1
+    average_time_per_word: float = statistics.mean(movement_times)
+    elapsed_time = time.time() - start_time
+    console.print(f"[bold]Elapsed time:[/bold] [cyan]{elapsed_time}[/cyan] seconds")
+    console.print(f"[bold]Expected score:[/bold] [green]{score}[/green]")
+    console.print(f"[bold]Expected total words:[/bold] {words}")
+    console.print(
+        f"[bold]Average time per word:[/bold] {average_time_per_word} ±"
+        f" {max(movement_times)-average_time_per_word}",
+    )

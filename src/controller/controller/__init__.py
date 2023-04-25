@@ -95,7 +95,11 @@ PointPath = tuple[LetterPoint, ...]
 
 
 def logic(point_matrix: list[list[str]], trie: pygtrie.CharTrie) -> Iterator[PointPath]:
-    """Given a matrix of possible points, yield a tuple of points representing a new and unique path."""
+    """Run the BFS word-finding logic
+
+    Given a matrix of possible points, yield a tuple of points
+    representing a new and unique path.
+    """
     max_row_length = len(point_matrix[0])
     max_col_length = len(point_matrix)
     # Every point on the matrix
