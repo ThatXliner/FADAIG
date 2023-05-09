@@ -12,8 +12,10 @@ from controller import absolute_move, home, logic, press, release
 
 def get_words() -> pygtrie.CharTrie:
     output = pygtrie.CharTrie()
-    with progress.wrap_file(
-        (Path(__file__).parent.parent / "words.txt").open("r", encoding="utf-8"),
+    with progress.open(
+        str((Path(__file__).parent.parent / "words.txt").resolve()),
+        "r",
+        encoding="utf-8",
     ) as file:
         for word in file:
             # A unique object to mark the end of the trie
@@ -65,17 +67,16 @@ SCORE_MAP = {3: 100, 4: 400, 5: 800, 6: 1400, 7: 1800}
 def word_hunt() -> None:
     console = Console()
     release()
-    with console.status("Loading word list..."):
-        words = get_words()
+    words = get_words()
     # Move to top left corner
     absolute_move(0, 0, home=True)
     tiles = [list(Prompt.ask(">").lower()) for _ in range(4)]
 
     start_time = time.time()
     score = 0
-    words = 0
+    total_words = 0
     movement_times = []
-    for path in progress.track(reversed(list(logic(tiles, words)))):
+    for path in reversed(list(logic(tiles, words))):
         score += SCORE_MAP.get(len(path), 1800)
         is_pressed = False
         start = time.time()
@@ -87,7 +88,7 @@ def word_hunt() -> None:
                 is_pressed = True
         release()
         movement_times.append(time.time() - start)
-        words += 1
+        total_words += 1
     average_time_per_word: float = statistics.mean(movement_times)
     elapsed_time = time.time() - start_time
     console.print(f"[bold]Elapsed time:[/bold] [cyan]{elapsed_time}[/cyan] seconds")
