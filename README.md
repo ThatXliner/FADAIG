@@ -21,9 +21,9 @@ There's actually much more potential for this than just a word hunt bot. The cod
    - Connect the other end of the serial-to-usb to the host device
 5. Run the `src/controller` code on the host device
    1. Start running the code on the host device
-   2. Press "start" on target device
-   3. Confirm program execution on host device after animation finished
-   4. Input board
+   2. Wait for the program to load the word list
+   3. Press "start" on target device
+   4. Input the 4x4 board
    5. Profit
 
 ## License
