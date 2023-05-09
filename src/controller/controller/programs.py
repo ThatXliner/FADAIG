@@ -16,10 +16,11 @@ def get_words() -> pygtrie.CharTrie:
         str((Path(__file__).parent.parent / "words.txt").resolve()),
         "r",
         encoding="utf-8",
+        description="[blue]Loading word list",
     ) as file:
         for word in file:
             # A unique object to mark the end of the trie
-            output[word.lower()] = object()
+            output[word.lower().rstrip()] = object()
     return output
 
 
@@ -76,7 +77,10 @@ def word_hunt() -> None:
     score = 0
     total_words = 0
     movement_times = []
-    for path in reversed(list(logic(tiles, words))):
+    for path in progress.track(
+        list(reversed(list(logic(tiles, words)))),
+        description="Running bot...",
+    ):
         score += SCORE_MAP.get(len(path), 1800)
         is_pressed = False
         start = time.time()
@@ -93,7 +97,7 @@ def word_hunt() -> None:
     elapsed_time = time.time() - start_time
     console.print(f"[bold]Elapsed time:[/bold] [cyan]{elapsed_time}[/cyan] seconds")
     console.print(f"[bold]Expected score:[/bold] [green]{score}[/green]")
-    console.print(f"[bold]Expected total words:[/bold] {words}")
+    console.print(f"[bold]Expected total words:[/bold] {total_words}")
     console.print(
         f"[bold]Average time per word:[/bold] {average_time_per_word} ±"
         f" {max(movement_times)-average_time_per_word}",
