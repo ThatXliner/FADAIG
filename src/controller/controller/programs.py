@@ -6,6 +6,7 @@ import pygtrie
 from rich import progress
 from rich.console import Console
 from rich.prompt import Prompt
+from rich.table import Table
 
 from controller import absolute_move, home, logic, press, release
 
@@ -95,10 +96,14 @@ def word_hunt() -> None:
         total_words += 1
     average_time_per_word: float = statistics.mean(movement_times)
     elapsed_time = time.time() - start_time
-    console.print(f"[bold]Elapsed time:[/bold] [cyan]{elapsed_time}[/cyan] seconds")
-    console.print(f"[bold]Expected score:[/bold] [green]{score}[/green]")
-    console.print(f"[bold]Expected total words:[/bold] {total_words}")
-    console.print(
-        f"[bold]Average time per word:[/bold] {average_time_per_word} ±"
-        f" {max(movement_times)-average_time_per_word}",
+    table = Table(show_header=False)
+
+    table.add_row("Elapsed time", f"[cyan]{elapsed_time:.2f}[/cyan] seconds")
+    table.add_row("Expected score", f"[green]{score}[/green]")
+    table.add_row("Expected total words", f"[cyan]{total_words}[/cyan] words")
+    table.add_row(
+        "Average time per word",
+        f"[cyan]{average_time_per_word:.4f}[/cyan] ±"
+        f" [cyan]{max(movement_times)-average_time_per_word:.4f}[/cyan] seconds",
     )
+    console.print(table)
