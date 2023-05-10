@@ -15,7 +15,9 @@ void setup() {
   inputX = -1;
   inputY = -1;
   Mouse.begin();
-  // TODO: Calibrate correction factor, calibrate actual screen resolution
+  // If this doesn't work for you, you should
+  // calibrate the correction factor and calibrate the actual screen resolution
+  // by playing around with a few values
   MouseTo.setCorrectionFactor(1);
 }
 void executeCommand() {
