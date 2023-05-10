@@ -26,4 +26,4 @@ Programmer supports the following devices:
     Device code: 0x44
 ```
 
-Or something similar
+Or something similar. You may need to [calibrate the correction factor](https://github.com/ThatXliner/FADAIG/blob/6588f08d7d2319c696cf31a900ff606a4254b51a/src/worker/worker.ino#L21).
