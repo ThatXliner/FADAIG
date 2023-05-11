@@ -63,7 +63,7 @@ def mouse_shell() -> None:
             absolute_move(*list(map(int, cmd)), homed)
 
 
-SCORE_MAP = {3: 100, 4: 400, 5: 800, 6: 1400, 7: 1800}
+SCORE_MAP = {3: 100, 4: 400, 5: 800, 6: 1400, 7: 1800, 8: 2200, 9: 2600}
 
 
 def word_hunt() -> None:
@@ -82,7 +82,7 @@ def word_hunt() -> None:
         list(reversed(list(logic(tiles, words)))),
         description="Running bot...",
     ):
-        score += SCORE_MAP.get(len(path), 1800)
+        score += SCORE_MAP.get(len(path), 2600)
         is_pressed = False
         start = time.time()
         for tile in path:
