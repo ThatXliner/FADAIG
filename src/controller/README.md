@@ -6,7 +6,7 @@ This code should *theoretically* be ~~cross-platform~~ runnable on all Linux/Mac
 
 ## Usage
 
-Set up vitusl environment with [Poetry](https://python-poetry.org/)
+Set up virtual environment with [Poetry](https://python-poetry.org/)
 
 ```
 poetry install
