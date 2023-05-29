@@ -4,6 +4,11 @@
 
 There's actually much more potential for this than just a word hunt bot. The code published here is published in case anyone would find it useful for their own projects. See [here](#license) for license.
 
+## Screenshots
+
+![IMG_3713](https://github.com/ThatXliner/FADAIG/assets/66848002/11ae2f46-8961-4734-bd4d-dfa30b24c3cf)
+
+(screen recording of the bot in action coming soon)
 ## Parts required
 
 - [Arduino Leonardo](https://docs.arduino.cc/hardware/leonardo)
