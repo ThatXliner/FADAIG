@@ -13,8 +13,8 @@ There's actually much more potential for this than just a word hunt bot. The cod
 
 ## Usage
 
-1. Install the `src/worker` code onto the Arduino Leonardo
-2. Install the `src/controller` code onto the host device
+1. [Install the `src/worker` code](https://github.com/ThatXliner/FADAIG/tree/main/src/worker) onto the Arduino Leonardo
+2. [Install the `src/controller` code](https://github.com/ThatXliner/FADAIG/tree/main/src/controller) onto the host device
 3. Connect the Arduino Leonardo's factory USB to the target device
 4. Connect the serial-to-usb cable
    - Connect the respective `RX`, `TX`, and `GND` pins (`RX`->`TXD`, `TX`->`RXD`, `GND`->`GND`)
