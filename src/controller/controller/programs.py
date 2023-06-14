@@ -118,4 +118,8 @@ def word_hunt() -> None:
         f"[cyan]{average_time_per_word:.4f}[/cyan] ±"
         f" [cyan]{max(movement_times)-average_time_per_word:.4f}[/cyan] seconds",
     )
+    table.add_row(
+        "Average words per second",
+        f"[cyan]{(1/average_time_per_word):.4f}[/cyan]",
+    )
     console.print(table)
