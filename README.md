@@ -9,12 +9,18 @@ There's actually much more potential for this than just a word hunt bot. The cod
 ![IMG_3713](https://github.com/ThatXliner/FADAIG/assets/66848002/11ae2f46-8961-4734-bd4d-dfa30b24c3cf)
 
 (screen recording of the bot in action coming soon)
+
+
 ## Parts required
+
+**Host device:** A computer that can run the Python code that sends instructions to the Arduino connected to the target device
+
+**Target device:** An iPad/iPhone that can run GamePidgeon
 
 - [Arduino Leonardo](https://docs.arduino.cc/hardware/leonardo)
 - [Serial-to-USB](https://www.amazon.com/dp/B07BBPX8B8)
 - [Jumper wires](https://amazon.com/dp/B01EV70C78)
-- A micro-USB to USB cable/adapter for connecting the Arduino Leonardo's factory USB port to your host device and/or target device
+- A micro-USB to USB cable/adapter for connecting the Arduino Leonardo's factory USB port to your target device
 
 ## Usage
 
