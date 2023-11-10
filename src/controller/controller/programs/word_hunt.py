@@ -1,17 +1,16 @@
 import statistics
 import time
+from collections import deque
+from collections.abc import Iterator
 from pathlib import Path
+from typing import NamedTuple
 
 import pygtrie
 from rich import progress
 from rich.console import Console
 from rich.prompt import Prompt
 from rich.table import Table
-from collections import deque
-from collections.abc import Iterator
-from typing import NamedTuple
 
-import pygtrie
 from controller import absolute_move, home, press, release
 
 DX = [0, 1, 1, 1, 0, -1, -1, -1]
@@ -152,7 +151,7 @@ def word_hunt() -> None:
         start = time.time()
         for tile in path:
             absolute_move(
-                TOP_LEFT_X + tile.x * TILE_SIZE, TOP_LEFT_Y + tile.y * TILE_SIZE
+                TOP_LEFT_X + tile.x * TILE_SIZE, TOP_LEFT_Y + tile.y * TILE_SIZE,
             )
             if not is_pressed:
                 press()
