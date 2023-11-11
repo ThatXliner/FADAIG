@@ -133,7 +133,7 @@ SCORE_MAP = {3: 100, 4: 400, 5: 800, 6: 1400, 7: 1800, 8: 2200, 9: 2600}
 # TILE_SIZE = 150 # noqa: ERA001
 # For iPad Pro 12.9-inch, after iPadOS 17:
 TOP_LEFT_X = 553
-TOP_LEFT_Y = 730
+TOP_LEFT_Y = 725
 TILE_SIZE = 92
 
 
@@ -165,6 +165,7 @@ def word_hunt() -> None:
                 press()
                 is_pressed = True
         release()
+        time.sleep(0.01)
         movement_times.append(time.time() - start)
         total_words += 1
     average_time_per_word: float = statistics.mean(movement_times)
