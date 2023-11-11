@@ -1,8 +1,8 @@
-from .programs import word_hunt
+from .programs import mouse_shell
 
 
 def main() -> None:
-    word_hunt()
+    mouse_shell()
 
 
 if __name__ == "__main__":

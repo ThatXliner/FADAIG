@@ -1,9 +1,14 @@
+from __future__ import annotations
+
 import statistics
 import time
 from collections import deque
-from collections.abc import Iterator
 from pathlib import Path
-from typing import NamedTuple
+from typing import TYPE_CHECKING, NamedTuple
+
+if TYPE_CHECKING:
+    from collections.abc import Iterator
+
 
 import pygtrie
 from rich import progress
@@ -67,7 +72,7 @@ def logic(point_matrix: list[list[str]], trie: pygtrie.CharTrie) -> Iterator[Poi
 def get_words() -> pygtrie.CharTrie:
     output = pygtrie.CharTrie()
     with progress.open(
-        str((Path(__file__).parent.parent / "words.txt").resolve()),
+        str((Path(__file__).parent.parent.parent / "words.txt").resolve()),
         "r",
         encoding="utf-8",
         description="[blue]Loading word list",
@@ -118,16 +123,18 @@ def mouse_shell() -> None:
 
 SCORE_MAP = {3: 100, 4: 400, 5: 800, 6: 1400, 7: 1800, 8: 2200, 9: 2600}
 # Dimensions for center of top left tile
-# (For iPad Air 10.9")
-
-# TOP_LEFT\_X = 560  # noqa: ERA-0001
-# TOP_LEFT\_Y = 450  # noqa: ERA-0001
-# TILE_SIZ\E = 130  # noqa: ERA-0001
-# (For iPad Pro 12.9")
-TOP_LEFT_X = 625
-TOP_LEFT_Y = 570
-
-TILE_SIZE = 150
+# :For iPad Air 10.9-inch:
+# TOP_LEFT_X = 560 # noqa: ERA001
+# TOP_LEFT_Y = 450 # noqa: ERA001
+# TILE_SIZE = 130 # noqa: ERA001
+# For iPad Pro 12.9-inch, before iPadOS 17:
+# TOP_LEFT_X = 625 # noqa: ERA001
+# TOP_LEFT_Y = 570 # noqa: ERA001
+# TILE_SIZE = 150 # noqa: ERA001
+# For iPad Pro 12.9-inch, after iPadOS 17:
+TOP_LEFT_X = 553
+TOP_LEFT_Y = 730
+TILE_SIZE = 92
 
 
 def word_hunt() -> None:
@@ -151,7 +158,8 @@ def word_hunt() -> None:
         start = time.time()
         for tile in path:
             absolute_move(
-                TOP_LEFT_X + tile.x * TILE_SIZE, TOP_LEFT_Y + tile.y * TILE_SIZE,
+                TOP_LEFT_X + tile.x * TILE_SIZE,
+                TOP_LEFT_Y + tile.y * TILE_SIZE,
             )
             if not is_pressed:
                 press()
