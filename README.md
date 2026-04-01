@@ -15,7 +15,7 @@ There's actually much more potential for this than just a word hunt bot. The cod
 
 **Host device:** A computer that can run the Python code that sends instructions to the Arduino connected to the target device
 
-**Target device:** An iPad/iPhone that can run GamePidgeon
+**Target device:** An iPad/iPhone that can run GamePigeon
 
 - [Arduino Leonardo](https://docs.arduino.cc/hardware/leonardo)
 - [Serial-to-USB](https://www.amazon.com/dp/B07BBPX8B8)
